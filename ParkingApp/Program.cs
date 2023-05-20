@@ -1,18 +1,27 @@
 ﻿using System.Text.RegularExpressions;
+using System.Globalization;
 
-Console.Write("Please input total number of parking hours: ");
-String? input = Console.ReadLine();
+Console.Write("Please input start time: ");
+String? startTime = Console.ReadLine();
+Console.Write("Please input end time: ");
+String? endTime = Console.ReadLine();
 int result;
+DateTime startTimeValue, endTimeValue;
 
-if (string.IsNullOrEmpty(input))
+if (string.IsNullOrEmpty(startTime) || string.IsNullOrEmpty(endTime))
 {
     Console.WriteLine("Input cannot be empty");
 }
-else if (!Regex.IsMatch(input, @"^\d+$")) {
-    Console.WriteLine("Input must be a positive integer");
+else if (!DateTime.TryParseExact(startTime, "dd/MM/yyyy hh:mm:ss tt", new CultureInfo("en-US"), DateTimeStyles.None, out startTimeValue)) {
+    Console.WriteLine("Please input valid start time");
+}
+else if (!DateTime.TryParseExact(endTime, "dd/MM/yyyy hh:mm:ss tt", new CultureInfo("en-US"), DateTimeStyles.None, out endTimeValue)) {
+    Console.WriteLine("Please input valid end time");
 }
 else {
-    int numberOfHours = int.Parse(input);
+    startTimeValue = DateTime.ParseExact(startTime, "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
+    endTimeValue = DateTime.ParseExact(endTime, "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
+    int numberOfHours = (int)Math.Ceiling((endTimeValue - startTimeValue).TotalHours);
 
     if (numberOfHours ==  0) {
         result = 0;
