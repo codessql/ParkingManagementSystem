@@ -36,10 +36,22 @@ else {
         result = 2 + 3 * 2;
     }
     else if (numberOfHours < 24) {
-        result = 2 + 3 * 2 + 5 * (numberOfHours - 3);
+        if (2 + 3 * 2 + 5 * (numberOfHours - 3) > 70) {
+            result = 70;
+        }
+        else {
+            result = 2 + 3 * 2 + 5 * (numberOfHours - 3);
+        }
     }
     else {
-        result = (numberOfHours / 24) * 70 + numberOfHours % 24 * 5;
+        int remainingHoursFees;
+        if (numberOfHours % 24 * 5 > 70) {
+            remainingHoursFees = 70;
+        }
+        else {
+            remainingHoursFees = numberOfHours % 24 * 5;
+        }
+        result = (numberOfHours / 24) * 70 + remainingHoursFees;
     }
 
     Console.WriteLine($"Total parking fees: ${result}");
