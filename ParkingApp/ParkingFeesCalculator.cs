@@ -31,15 +31,16 @@ public class ParkingFeesCalculator
             }
             else
             {
-                return Calculate(startTimeValue, endTimeValue);
+                DateTimeProcessor dateTimeProcessor = new DateTimeProcessor();
+                double totalHours = dateTimeProcessor.GetTimeDifferenceInHours(startTimeValue, endTimeValue);
+                int numberOfHours = dateTimeProcessor.RoundUp(totalHours);
+                return Calculate(numberOfHours);
             }
         }
     }
 
-    public decimal Calculate(DateTime startTimeValue, DateTime endTimeValue)
+    public decimal Calculate(int numberOfHours)
     {
-        int numberOfHours = (int)Math.Ceiling((endTimeValue - startTimeValue).TotalHours);
-
         decimal firstHourRate = Math.Round(2 * 1.10M, 2);
         decimal secondAndThirdHourRate = Math.Round(3 * 1.10M, 2);
         decimal fourthAndAboveHourRate = Math.Round(5 * 1.10M, 2);
