@@ -1,44 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
-using System.Globalization;
 
 public class ParkingFeesCalculator
 {
-    public decimal CalculateParkingFees(string? startTime, string? endTime)
-    {
-        DateTime startTimeValue, endTimeValue;
-
-        if (string.IsNullOrEmpty(startTime) || string.IsNullOrEmpty(endTime))
-        {
-            throw new ArgumentException("Input cannot be empty");
-        }
-        else if (!DateTime.TryParseExact(startTime, "dd/MM/yyyy hh:mm:ss tt", new CultureInfo("en-US"), DateTimeStyles.None, out startTimeValue))
-        {
-            throw new InvalidCastException("Please input valid start time");
-        }
-        else if (!DateTime.TryParseExact(endTime, "dd/MM/yyyy hh:mm:ss tt", new CultureInfo("en-US"), DateTimeStyles.None, out endTimeValue))
-        {
-            throw new InvalidCastException("Please input valid end time");
-        }
-        else
-        {
-            startTimeValue = DateTime.ParseExact(startTime, "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-            endTimeValue = DateTime.ParseExact(endTime, "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-
-            if (endTimeValue < startTimeValue)
-            {
-                throw new InvalidDataException("Invalid start and end time");
-            }
-            else
-            {
-                DateTimeProcessor dateTimeProcessor = new DateTimeProcessor();
-                double totalHours = dateTimeProcessor.GetTimeDifferenceInHours(startTimeValue, endTimeValue);
-                int numberOfHours = dateTimeProcessor.RoundUp(totalHours);
-                return Calculate(numberOfHours);
-            }
-        }
-    }
-
     public decimal Calculate(int numberOfHours)
     {
         decimal firstHourRate = Math.Round(2 * 1.10M, 2);
